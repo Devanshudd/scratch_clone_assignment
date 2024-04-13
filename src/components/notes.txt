@@ -1,0 +1,4 @@
+point 1: restrict moveSprite and rotateSprite to window only cat will not go outside window
+point 2: video also need to share
+point 3: diagram of baisc flow(folder structure)(each folder: short usage)
+

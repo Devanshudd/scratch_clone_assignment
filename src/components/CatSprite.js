@@ -1,14 +1,102 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-export default function CatSprite() {
+export default function CatSprite({ position, rotation, moveSprite,size }) {
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [catPosition, setCatPosition] = useState(position);
+  const [catRotation, setCatRotation] = useState(rotation);
+
+  useEffect(() => {
+    // Update the cat's position and rotation when they change
+    setCatPosition(position);
+    setCatRotation(rotation);
+  }, [position, rotation]);
+
+  const handleMouseDown = (event) => {
+    console.log("Mouse down", event);
+    setIsDragging(true);
+    const { clientX, clientY } = event;
+    console.log("Initial position", clientX, clientY);
+
+    // Calculate the offset relative to the top-left corner of the cat
+    const offsetX = clientX - catPosition.x;
+    const offsetY = clientY - catPosition.y;
+
+    // Set the dragOffset
+    setDragOffset({ x: offsetX, y: offsetY });
+  };
+  
+  // const handleMouseMove = (event) => {
+  //   if (isDragging) {
+  //     console.log("Mouse move", event);
+  //     const { clientX, clientY } = event;
+  //     const newMouseX = clientX - dragOffset.x;
+  //     const newMouseY = clientY - dragOffset.y;
+  //     console.log("New mouse position", newMouseX, newMouseY);
+  //     // Update the cat sprite's position in the state
+  //     setCatPosition({ x: newMouseX, y: newMouseY });
+  //   }
+  // };
+  const handleMouseMove = (event) => {
+    if (isDragging) {
+      console.log("Mouse move", event);
+      const { clientX, clientY } = event;
+      const newMouseX = clientX - dragOffset.x;
+      const newMouseY = clientY - dragOffset.y;
+      console.log("New mouse position", newMouseX, newMouseY);
+      // Calculate the change in position relative to the initial drag offset
+      const dx = newMouseX - catPosition.x;
+      const dy = newMouseY - catPosition.y;
+      // Update the cat sprite's position in the state
+      setCatPosition((prevPosition) => ({
+        x: prevPosition.x + dx,
+        y: prevPosition.y + dy,
+      }));
+    }
+  };
+  
+
+  const handleMouseUp = () => {
+    console.log("Mouse up");
+    setIsDragging(false);
+    // Update the cat's position using the moveSprite function with the new position
+    moveSprite(catPosition);
+  };
+  
+  // useEffect(() => {
+  //   if (isDragging) {
+  //     moveSprite(catPosition);
+  //   }
+  // }, [catPosition, isDragging]);
+  const stepSize = 10; // Adjust based on how far you want the sprite to move
+
+  // Convert rotation from degrees to radians
+  const radians = (catRotation * Math.PI) / 180;
+
+  // Calculate new position based on rotation
+  const newX = catPosition.x + stepSize * Math.cos(radians);
+  const newY = catPosition.y + stepSize * Math.sin(radians);
+
+  // Update position
+  const updatedPosition = { x: newX, y: newY };
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="95.17898101806641"
-      height="100.04156036376953"
+      // width="95.17898101806641"
+      // height="100.04156036376953"
+      width={size}
+      height={size}
       viewBox="0.3210171699523926 0.3000000357627869 95.17898101806641 100.04156036376953"
       version="1.1"
       xmlSpace="preserve"
+      style={{
+        transform: `translate(${updatedPosition.x}px, ${updatedPosition.y}px) rotate(${rotation}deg)`,
+        position: "absolute",
+      }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
     >
       <g>
         <g id="Page-1" stroke="none" fillRule="evenodd">
