@@ -2,12 +2,13 @@
 import React,{useState,useEffect} from "react";
 import CatSprite from "./CatSprite";
 
-export default function PreviewArea({ catSize,flag1,catPosition, catRotation, moveSprite, previewAreaSize, xAxisChecked, yAxisChecked, directionChecked, message, duration,pref,flag,setMessageDisplayed   }) {
+export default function PreviewArea({ rotateSetSprite, catSize,costumeChecked, backdropChecked, sizeChecked, flag1,catPosition, catRotation, moveSetSprite,moveSprite, previewAreaSize, xAxisChecked, yAxisChecked, directionChecked, message, duration,pref,flag,setMessageDisplayed   }) {
   const { width: maxWidth, height: maxHeight } = previewAreaSize;
   const [displayMessage, setDisplayMessage] = useState(null);
   const maxWidth1 = window.innerWidth;
   const maxHeight1 = window.innerHeight;
   const maxSize = Math.min(maxWidth1, maxHeight1);
+  
 
   // Use the smaller of catSize and maxSize as the actual size
   const size = Math.min(catSize, maxSize);
@@ -45,7 +46,7 @@ export default function PreviewArea({ catSize,flag1,catPosition, catRotation, mo
      
       {xAxisChecked && 
         <div className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center">
-      <p>X-axis value</p>
+      <p>X-axis value:{catPosition.x}</p>
       </div>
       }
           
@@ -54,17 +55,42 @@ export default function PreviewArea({ catSize,flag1,catPosition, catRotation, mo
       {/* Render Y-axis value if Y-axis checkbox is checked */}
       {yAxisChecked &&
        <div className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center">
-           <p>Y-axis value</p>
+           <p>Y-axis value:{catPosition.y}</p>
           </div>
        }
           
-   {/* Render Direction value if Direction checkbox is checked */}
+      {/* Render Direction value if Direction checkbox is checked */}
+      {directionChecked && (
+      <div className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center">
+        <p>Direction value: {
+        catRotation==360 ?360 : (catRotation >= 0 ? catRotation % 360 : catRotation % 360)}</p>
+      </div>
+      )}
+
+
+      {costumeChecked && 
+        <div className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center">
+      <p>Costume</p>
+      </div>
+      }
           
-          {directionChecked && 
-          <div className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center">
-          <p>Direction value</p>
+      
+
+      {/* Render Y-axis value if Y-axis checkbox is checked */}
+      {backdropChecked &&
+       <div className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center">
+           <p>Backdrop</p>
           </div>
-          }
+       }
+          
+      {/* Render Direction value if Direction checkbox is checked */}
+      {sizeChecked && (
+      <div className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center">
+        <p>size: {
+        catSize}</p>
+      </div>
+      )}
+
           
           {displayMessage &&  (
   <div className="">
@@ -79,7 +105,7 @@ export default function PreviewArea({ catSize,flag1,catPosition, catRotation, mo
 )}
      
     </div>
-    {flag1 ? <CatSprite size={size} position={catPosition} rotation={catRotation} moveSprite={moveSprite} maxX={maxX} maxY={maxY} /> : null}
+    {flag1 ? <CatSprite size={size} position={catPosition} rotation={catRotation} moveSetSprite={moveSetSprite} moveSprite={moveSprite} maxX={maxX} maxY={maxY} /> : null}
     </div>
   );
 }

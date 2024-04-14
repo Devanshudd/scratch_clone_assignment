@@ -1,18 +1,19 @@
 import React, { useState,useRef } from "react";
 import Icon from "./Icon";
 
-export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckboxChange, OnPref ,onSayClick, onShowCat, onHideCat, increaseSize,divideSize}) {
+export default function Sidebar({ rotateSetSprite, moveSetSprite, catPosition, moveSprite, rotateSprite , bounceCat, onLookCheckboxChange, onCheckboxChange, OnPref ,onSayClick, onShowCat, onHideCat, increaseSize,divideSize}) {
   const [isCurrentTab, setCurrentTab] = useState(true);
   const [selectedOption, setSelectedOption] = useState("random position");
   const [showOptions, setShowOptions] = useState(false);
   const [showOptions3, setShowOptions3] = useState(false);
   const [selectedOption3, setSelectedOption3] = useState("random position");
-  const [selectedOption1, setSelectedOption1] = useState("random position");
+  const [selectedOption1, setSelectedOption1] = useState("mouse pointer");
   const [showOptions1, setShowOptions1] = useState(false);
   const [x, setX] = useState(0);
   const [x2, setX2] = useState(0);
   const [x1, setX1] = useState(10);
   const [x3, setX3] = useState(0);
+  const [x4, setX4] = useState(10);
   const [y3, setY3] = useState(0);
   const [y, setY] = useState(0);
   const [angle, setAngle] = useState("0");
@@ -56,6 +57,23 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
   const [durationValue5, setDurationValue5] = useState(25);
   const [durationValue6, setDurationValue6] = useState(0);
   const[pref,setPref]=useState("");
+  const [movementInProgress, setMovementInProgress] = useState(false);
+  const [movementInProgress1, setMovementInProgress1] = useState(false);
+  const [movementInProgress2, setMovementInProgress2] = useState(false);
+  const handleRotation = (option) => {
+    if (option = "Left Right")
+  {
+    console.log("inside left right");
+  }
+  else if (option = "Don't-rotate")
+  {
+    console.log("inside don't rotate");
+  }
+  else if(option = "All Around"){
+    console.log("inside all around");
+  }
+
+  }
 
   const handleGraphicEffect = ()=>{
     console.log("Clear Graphic Effects");
@@ -117,6 +135,9 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
 
   const handleCheckboxClick = (checkboxName, isChecked) => {
     onCheckboxChange(checkboxName, isChecked);
+  };
+  const handleCheckboxClick1 = (checkboxName, isChecked) => {
+    onLookCheckboxChange(checkboxName, isChecked);
   };
 
   const handleBounceClick = () => {
@@ -195,7 +216,7 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
 
   const handleRotateClick = () => {
     // Rotate the sprite with the updated angle
-    rotateSprite(parseInt(angle));
+    rotateSetSprite(parseInt(angle));
   };
 
   const handleInputChange = (e, setter) => {
@@ -219,12 +240,49 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
 
   const handleMoveBtnClick = () => {
     // Move the sprite with the updated x and y values
-    moveSprite({ x: parseInt(x), y: parseInt(y) });
+    moveSetSprite({ x: parseInt(x), y: parseInt(y) });
   };
   const handleMoveBtnClick1 = () => {
-    // Move the sprite with the updated x and y values
-    moveSprite({ x: parseInt(x), y: parseInt(y) });
+    // Check if the movement is already in progress
+    if (!movementInProgress) {
+      // Set the flag to indicate that movement is in progress
+      setMovementInProgress(true);
+  
+      const durationInSeconds = parseInt(angle2); // Duration in seconds
+      const targetX = parseInt(x3); // Target x-coordinate
+      const targetY = parseInt(y3); // Target y-coordinate
+  
+      // Calculate the change in x and y per millisecond
+      const dx = (targetX - catPosition.x) / (durationInSeconds * 1000);
+      const dy = (targetY - catPosition.y) / (durationInSeconds * 1000);
+  
+      let currentTime = 0;
+  
+      // Define a function to update the sprite's position over time
+      const moveInterval = setInterval(() => {
+        // Calculate the new position
+        const newX = catPosition.x + dx * currentTime;
+        const newY = catPosition.y + dy * currentTime;
+  
+        // Update the sprite's position
+        moveSetSprite({ x: newX, y: newY });
+  
+        // Increment the current time by 1 millisecond
+        currentTime += 1;
+  
+        // Stop the interval if the duration has elapsed
+        if (currentTime >= durationInSeconds * 1000) {
+          clearInterval(moveInterval);
+  
+          // Reset the flag to indicate that movement is no longer in progress
+          setMovementInProgress(false);
+        }
+      }, 1); // Update the position every millisecond
+    }
   };
+  
+  
+  
 
   const handleTabClick = () => {
     setCurrentTab(!isCurrentTab);
@@ -232,7 +290,7 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
 
   const handleMoveClick = () => {
     // Call the moveSprite function with the appropriate parameters
-    moveSprite(10); // You can adjust the step size as needed
+    moveSprite({ x: parseInt(x4), y: 0 });// You can adjust the step size as needed
   };
   const handleMoveClick1 = () => {
     // Move the sprite along the x-axis by the specified value
@@ -241,11 +299,11 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
 
   const handleMoveClick2 = () => {
      // Move the sprite along the x-axis by the specified value only if the value has changed
-     if (x2 !== prevX2.current) {
-      moveSprite({ x: parseInt(x2), y: 0 });
+    //  if (x2 !== prevX2.current) {
+      moveSetSprite({ x: parseInt(x2), y: 0 });
       // Update the previous value of x1 to the current value
-      prevX2.current = x2;
-    }
+    //   prevX2.current = x2;
+    // }
   };
 
 
@@ -255,50 +313,23 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
 
   const handleMoveClick4 = () => {
     // moveSprite({ x: parseInt(x2), y: parseInt(y2) });
-    if (y2 !== prevy2.current) {
-      moveSprite({ x: 0, y: parseInt(y2) });
+   
+      moveSetSprite({ x: 0, y: parseInt(y2) });
       // Update the previous value of x1 to the current value
-      prevy2.current = y2;
-    }
+     
   };
   const handleRotateLeftClick = () => {
-    if (rotationEnabled) {
-      if (selectedOption2 === "Left Right") {
-        console.log("Inside")
-        if (catRotation > 180) {
-          console.log("Rotate left from 180 to -165");
-          rotateSprite(-165);
-        } else {
-          console.log("Rotate left by -15");
-          rotateSprite(-15);
-        }
-      } else {
-        console.log("Rotate left by -15 (default)");
-        rotateSprite(-15); // Default behavior if rotation style is not "Left Right"
-      }
+    if(rotationEnabled)
+    {
+      rotateSprite(-15);
     }
+    
   };
   
   const handleRotateRightClick = () => {
-    if (rotationEnabled) {
-      if (selectedOption2 === "Left Right") {
-        if (rotateSprite > 180) {
-          console.log("Rotate right from -180 to 165");
-          rotateSprite(165);
-        } else {
-          // console.log("Rotate right by 15");
-          // rotateSprite(15);
-        }
-      } 
-      else {
-        console.log("Rotate right by 15 (default)");
-        rotateSprite(15); // Default behavior if rotation style is not "Left Right"
-      }
-    }
-    else 
+    if(rotationEnabled)
     {
-      setFlag(0);
-      // rotateSprite(15,flag)
+      rotateSprite(15);
     }
   };
 
@@ -307,7 +338,163 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
     setShowOptions3((prevState) => !prevState);
   };
 
-  const handleGoToClick = () => {
+ 
+  
+
+  const handleGlideOnTime = (option) => {
+
+
+    
+    console.log("Devanshu:",option)
+    if (option === "random position")
+  {
+    // Define the range for random coordinates (1 to 100)
+    const minX = 1;
+    const maxX = 272;//max x axis of previewarea
+    const minY = 1;
+    const maxY = 1086;//highest y axis of previewarea
+
+    //we can use useContext or redux as well to store value of previewareasize from previewarea 
+
+
+    // Generate random x and y coordinates within the specified range
+    const xx = Math.random() * (maxX - minX) + minX;
+    const yy = Math.random() * (maxY - minY) + minY;
+    console.log("x:", x, "\n", "y:", y);
+
+     // Check if the movement is already in progress
+     if (!movementInProgress1) {
+      // Set the flag to indicate that movement is in progress
+      setMovementInProgress1(true);
+  
+      const durationInSeconds1 = parseInt(angle1); // Duration in seconds
+      const targetX = parseInt(xx); // Target x-coordinate
+      const targetY = parseInt(yy); // Target y-coordinate
+  
+      // Calculate the change in x and y per millisecond
+      const dx = (targetX - catPosition.x) / (durationInSeconds1 * 1000);
+      const dy = (targetY - catPosition.y) / (durationInSeconds1 * 1000);
+  
+      let currentTime = 0;
+  
+      // Define a function to update the sprite's position over time
+      const moveInterval = setInterval(() => {
+        // Calculate the new position
+        const newX = catPosition.x + dx * currentTime;
+        const newY = catPosition.y + dy * currentTime;
+  
+        // Update the sprite's position
+        // moveSetSprite({ x: newX, y: newY });
+        moveSetSprite({ x: newX, y: newY });
+  
+        // Increment the current time by 1 millisecond
+        currentTime += 1;
+  
+        // Stop the interval if the duration has elapsed
+        if (currentTime >= durationInSeconds1 * 1000) {
+          clearInterval(moveInterval);
+  
+          // Reset the flag to indicate that movement is no longer in progress
+          setMovementInProgress1(false);
+        }
+      }, 1); // Update the position every millisecond
+    }
+
+    // Move the cat sprite to the generated random position
+    
+  }
+  else if(option === "mouse pointer"){
+  
+
+
+   // Generate random x and y coordinates within the specified range
+   const xx = -10;
+   const yy = 117;
+   console.log("x:", x, "\n", "y:", y);
+
+    // Check if the movement is already in progress
+    if (!movementInProgress2) {
+     // Set the flag to indicate that movement is in progress
+     setMovementInProgress2(true);
+ 
+     const durationInSeconds1 = parseInt(angle1); // Duration in seconds
+     const targetX = parseInt(xx); // Target x-coordinate
+     const targetY = parseInt(yy); // Target y-coordinate
+ 
+     // Calculate the change in x and y per millisecond
+     const dx = (targetX - catPosition.x) / (durationInSeconds1 * 1000);
+     const dy = (targetY - catPosition.y) / (durationInSeconds1 * 1000);
+ 
+     let currentTime = 0;
+ 
+     // Define a function to update the sprite's position over time
+     const moveInterval = setInterval(() => {
+       // Calculate the new position
+       const newX = catPosition.x + dx * currentTime;
+       const newY = catPosition.y + dy * currentTime;
+ 
+       // Update the sprite's position
+       // moveSetSprite({ x: newX, y: newY });
+       moveSetSprite({ x: newX, y: newY });
+ 
+       // Increment the current time by 1 millisecond
+       currentTime += 1;
+ 
+       // Stop the interval if the duration has elapsed
+       if (currentTime >= durationInSeconds1 * 1000) {
+         clearInterval(moveInterval);
+ 
+         // Reset the flag to indicate that movement is no longer in progress
+         setMovementInProgress2(false);
+       }
+     }, 1); // Update the position every millisecond
+   }
+
+  }
+}
+
+  const handleRandomPosition = (option) => {
+    console.log("Devanshu:",option)
+    if (option === "random position")
+  {
+    // Define the range for random coordinates (1 to 100)
+    const minX = 1;
+    const maxX = 272;//max x axis of previewarea
+    const minY = 1;
+    const maxY = 1086;//highest y axis of previewarea
+
+    //we can use useContext or redux as well to store value of previewareasize from previewarea 
+
+
+    // Generate random x and y coordinates within the specified range
+    const x = Math.random() * (maxX - minX) + minX;
+    const y = Math.random() * (maxY - minY) + minY;
+    console.log("x:", x, "\n", "y:", y);
+
+    // Move the cat sprite to the generated random position
+    moveSetSprite({ x: x, y: y });
+  }
+  else if(option === "mouse pointer"){
+    console.log("inside mouse pointer")
+    // const x= -10;
+    // const y=39;
+   moveSetSprite({x:-10,y:117});
+  }
+}
+const handleRandomPositionAngle = (option) => {
+  
+    const random = -129;
+    rotateSetSprite(random);
+    console.log("rn1",random);
+  // // Convert the random number to an angle in radians (0 to 2 * pi)
+  // const angle = random * 2 * Math.PI;
+
+  
+}
+
+  
+  const handleGoToClick = (option) => {
+    // handleRandomPosition(option);
     setShowOptions((prevState) => !prevState);
   };
   const handleGoToClick1 = () => {
@@ -338,14 +525,18 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
     setShowOptions11((prevState) => !prevState);
   };
 
+  const handleGoToClick12 = () => {
+    setShowOptions8((prevState) => !prevState);
+  };
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     setShowOptions(false);
     // Perform action based on selected option
     if (option === "random position") {
-      // Perform action for Option 1
+      console.log(option);
+      // handleGoToClick(option);
     } else if (option === "mouse pointer") {
-      // Perform action for Option 2
+      // handleGoToClick(option);
     }
   };
   const handleOptionSelect3 = (option) => {
@@ -363,10 +554,8 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
     setSelectedOption1(option);
     setShowOptions1(false);
     // Perform action based on selected option
-    if (option === "random position") {
-      // Perform action for Option 1
-    } else if (option === "mouse pointer") {
-      // Perform action for Option 2
+    if (option === "mouse pointer") {
+      handleRandomPositionAngle(option);
     }
   };
 
@@ -376,11 +565,13 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
     // Perform action based on selected option
     if (option === "Left Right") {
       setRotationEnabled(true);
-      
+      handleRotation(option);
     } else if (option === "Don't-rotate") {
       setRotationEnabled(false);
+      handleRotation(option);
     } else if (option === "All Around") {
       setRotationEnabled(true);
+      handleRotation(option);
     }
   };
 
@@ -536,19 +727,25 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
       {/* Render Buttons based on selected tab */}
       {isCurrentTab ? (
         <>
-          <div className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer">
+          {/* <div className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer">
             When <Icon name="flag" size={15} className="text-green-600 mx-2" />
             clicked
           </div>
           <div className="flex flex-row flex-wrap bg-yellow-500 text-white px-2 py-1 my-2 text-sm cursor-pointer">
             When this sprite clicked
-          </div>
+          </div> */}
           <div
             className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleMoveClick}
           >
-            Move 10 steps
+           <span className="mr-1">Move</span>  <input
+                type="text"
+                value={x4}
+                onChange={(e) => handleChange(e, setX4)}
+                className="border rounded px-1 mr-2 w-8 text-center text-black"
+              /> <span className="mr-1">steps</span>
           </div>
+          
           <div
             className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleRotateLeftClick} disabled={!rotationEnabled}
@@ -561,12 +758,12 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
           >
             Rotate Right
           </div>
-          <div className="relative">
+          <div className="relative" >
             <button
               className="bg-blue-500 text-white px-2 py-1 my-2  text-sm cursor-pointer rounded shadow-md"
-              onClick={handleGoToClick}
+              
             >
-              Go to {selectedOption} <span>&#9660;</span>
+              <span  onClick={() => handleRandomPosition(selectedOption)}> go to </span> <span className="bg-white text-black px-1" onClick={handleGoToClick}> {selectedOption}&#9660;</span>
         
             {showOptions && (
                 <div className="absolute bg-blue-500 text-white mt-1 py-2 rounded shadow-md z-10">
@@ -587,7 +784,7 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
             </button>
           </div>
           <div className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"  onClick={handleMoveBtnClick}>
-            <span className="mr-1">x:</span>
+              <span className="mr-1">go to</span><span className="mr-1"> x:</span>
             <input
               type="text"
               value={x}
@@ -605,14 +802,14 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
           <div className="relative">
             <button
               className="bg-blue-500 text-white  py-1 my-2  text-sm cursor-pointer rounded shadow-md"
-              onClick={handleGoToClick3}
+             
             >
-             <span>Glide</span><input
+             <span onClick={() =>handleGlideOnTime(selectedOption3)}>Glide</span><input
               type="text"
               value={angle1}
               onChange={(e) => handleChange5(e, setAngle1)}
               className="border rounded   w-4 text-center text-black"
-              />  <span>secs to {selectedOption3} <span>&#9660;</span></span>
+              />  <span>secs to  <span className="bg-white text-black" onClick={handleGoToClick3}>{selectedOption3} &#9660;</span></span>
               {showOptions3 && (
                 <div className="absolute bg-blue-500 text-white mt-2 py-2 rounded shadow-md z-10">
                   <div
@@ -632,7 +829,7 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
             </button>
           </div>
           <div className="relative">
-            <button className="bg-blue-500 text-white py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center" onClick={handleMoveBtnClick1}> 
+            <button className="bg-blue-500 text-white py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"  onClick={handleMoveBtnClick1}> 
               <span>Glide</span>
               <input
                 type="text"
@@ -672,17 +869,11 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
           <div className="relative">
             <button
               className="bg-blue-500 text-white px-1 py-1 my-1  text-sm cursor-pointer rounded shadow-md"
-              onClick={handleGoToClick1}
+             
             >
-              point towards {selectedOption1} <span>&#9660;</span>
+              <span onClick={handleRandomPositionAngle}>point towards</span>  <span className="bg-white text-black px-1" onClick={handleGoToClick1}>{selectedOption1}&#9660;</span>
               {showOptions1 && (
                 <div className="absolute bg-blue-500 text-white mt-1 py-2 rounded shadow-md">
-                  <div
-                    className="cursor-pointer px-4 py-2 hover:bg-blue-900"
-                    onClick={() => handleOptionSelect1("random position")}
-                  >
-                    random position
-                  </div>
                   <div
                     className="cursor-pointer px-4 py-2 hover:bg-blue-900"
                     onClick={() => handleOptionSelect1("mouse pointer")}
@@ -739,9 +930,9 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
           <div className="relative">
             <button
               className="bg-blue-500 text-white py-1 my-1 text-sm cursor-pointer rounded shadow-md"
-              onClick={handleGoToClick2}
+              
             >
-              Set Rotation Style : {selectedOption2} <span>&#9660;</span>
+              <span onClick={handleRotation}>Set Rotation Style :</span> <span className="bg-white text-black " onClick={handleGoToClick2}>{selectedOption2}&#9660;</span>
               {showOptions2 && (
                 <div className="absolute bg-blue-500 text-white mt-2 py-2 rounded shadow-md">
                   <div
@@ -871,7 +1062,7 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
               className="bg-purple-700 text-white px-2 py-1 my-2  text-sm cursor-pointer rounded shadow-md"
               onClick={handleGoToClick4}
             >
-              Switch costume to {selectedOption4} <span>&#9660;</span>
+              Switch costume to  <span className="bg-white text-black " >{selectedOption4} &#9660;</span>
         
             {showOptions4 && (
                 <div className="absolute bg-purple-700 text-white mt-1 py-2 rounded shadow-md z-10">
@@ -897,7 +1088,7 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
               className="bg-purple-700 text-white  py-1 my-2  text-sm cursor-pointer rounded shadow-md"
               onClick={handleGoToClick5}
             >
-              Switch backdrop to {selectedOption5} <span>&#9660;</span>
+              Switch backdrop to<span className="bg-white text-black"> {selectedOption5}&#9660;</span>
         
             {showOptions5 && (
                 <div className="absolute bg-purple-700 text-white mt-1 py-2 rounded shadow-md z-10">
@@ -954,7 +1145,7 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
                 className="bg-purple-700 text-white  py-1 my-2  text-sm cursor-pointer rounded shadow-md"
                 onClick={handleGoToClick10}
                 >
-               change {selectedOption10} <span>&#9660;</span>
+               change <span className="bg-white text-black">{selectedOption10} &#9660;</span>
           
                 {showOptions10 && (
                   <div className="absolute bg-purple-700 text-white mt-1 py-2 rounded shadow-md z-10">
@@ -1016,7 +1207,7 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
                 className="bg-purple-700 text-white  py-1 my-2  text-sm cursor-pointer rounded shadow-md"
                 onClick={handleGoToClick11}
                 >
-               set {selectedOption11} <span>&#9660;</span>
+               set <span className="bg-white text-black">{selectedOption11} &#9660;</span>
           
                 {showOptions11 && (
                   <div className="absolute bg-purple-700 text-white mt-1 py-2 rounded shadow-md z-10">
@@ -1081,7 +1272,7 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
               className="bg-purple-700 text-white px-2 py-1 my-2  text-sm cursor-pointer rounded shadow-md"
               onClick={handleGoToClick6}
             >
-              go to {selectedOption6} <span>&#9660;</span>
+              go to  <span className="bg-white text-black"> {selectedOption6}&#9660;</span>
         
             {showOptions6 && (
                 <div className="absolute bg-purple-700 text-white mt-1 py-2 rounded shadow-md z-10">
@@ -1107,7 +1298,7 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
                 className="bg-purple-700 text-white px-2 py-1 my-2  text-sm cursor-pointer rounded shadow-md"
                 onClick={handleGoToClick7}
                 >
-                go to {selectedOption7} <span>&#9660;</span>
+                go to  <span className="bg-white text-black">{selectedOption7}&#9660;</span>
           
                 {showOptions7 && (
                   <div className="absolute bg-purple-700 text-white mt-1 py-2 rounded shadow-md z-10">
@@ -1138,11 +1329,11 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
           <label className="flex items-center">
             <input
               type="checkbox"
-              onChange={(e) => handleCheckboxClick("xAxis", e.target.checked)}
+              onChange={(e) => handleCheckboxClick1("costume", e.target.checked)}
               className="mr-2 form-checkbox text-purple-700"
             />
             <div className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center" onClick={handleGoToClick8}>
-              costume {selectedOption8} <span>&#9660;</span>
+              costume  <span className="bg-white text-black px-1 ml-1"> {selectedOption8}&#9660;</span>
               {showOptions8 && (
                 <div className="absolute bg-purple-700 text-white mt-1 py-2 rounded shadow-md z-10">
                   <div
@@ -1164,11 +1355,11 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
             <label className="flex items-center">
               <input
                 type="checkbox"
-                onChange={(e) => handleCheckboxClick("yAxis", e.target.checked)}
+                onChange={(e) => handleCheckboxClick1("backdrop", e.target.checked)}
                 className="mr-2 form-checkbox text-purple-700"
               />
               <div className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center mr-2" onClick={handleGoToClick9}>
-                              backdrop {selectedOption9} <span>&#9660;</span>
+                              backdrop <span className="bg-white text-black px-1 ml-1">{selectedOption9} &#9660;</span>
                     {showOptions9 && (
                       <div className="absolute bg-purple-700 text-white mt-1 py-2 rounded shadow-md z-10">
                         <div
@@ -1190,7 +1381,7 @@ export default function Sidebar({ moveSprite, rotateSprite , bounceCat, onCheckb
                   <label className="flex items-center">
                     <input
                       type="checkbox"
-                      onChange={(e) => handleCheckboxClick("direction", e.target.checked)}
+                      onChange={(e) => handleCheckboxClick1("size", e.target.checked)}
                       className="mr-2 form-checkbox text-purple-700"
                     />
                     <div className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center">

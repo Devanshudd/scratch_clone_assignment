@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export default function CatSprite({ position, rotation, moveSprite,size }) {
+export default function CatSprite({ position, rotation, moveSprite,size,moveSetSprite }) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [catPosition, setCatPosition] = useState(position);
@@ -61,6 +61,7 @@ export default function CatSprite({ position, rotation, moveSprite,size }) {
     setIsDragging(false);
     // Update the cat's position using the moveSprite function with the new position
     moveSprite(catPosition);
+    moveSetSprite(catPosition);
   };
   
   // useEffect(() => {
