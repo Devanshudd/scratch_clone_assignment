@@ -6,7 +6,7 @@
 - Run `npm start`
 - Open http://localhost:3000 to see the working application.
 
-## Checkout this on Playground!:
+## Checkout this on Playground:
 
 https://scratch-clone-assignment.vercel.app/
 
