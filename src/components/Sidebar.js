@@ -152,16 +152,115 @@ export default function Sidebar({
   const handleBounceClick = () => {
     bounceCat();
   };
-
+  const handleSetRotation = (event) => {
+    event.dataTransfer.setData("type", "setr");
+    event.dataTransfer.setData("value", "setr");
+  };
+  const handleCheckboxX = (event) => {
+    event.dataTransfer.setData("type", "boxX");
+    event.dataTransfer.setData("value", "boxX");
+  };
+  const handleCheckboxY = (event) => {
+    event.dataTransfer.setData("type", "boxY");
+    event.dataTransfer.setData("value", "boxY");
+  };
+  const handleCheckboxD = (event) => {
+    event.dataTransfer.setData("type", "boxD");
+    event.dataTransfer.setData("value", "boxD");
+  };
+  const handleSayTime = (event) => {
+    event.dataTransfer.setData("type", "sayt");
+    event.dataTransfer.setData("value", messageText);
+    event.dataTransfer.setData("value1", durationValue.toString());
+  };
+  const handleSayTime1 = (event) => {
+    event.dataTransfer.setData("type", "say");
+    event.dataTransfer.setData("value", messageText1);
+  };
+  const handleThinkTime = (event) => {
+    event.dataTransfer.setData("type", "thinkt");
+    event.dataTransfer.setData("value", messageText2);
+    event.dataTransfer.setData("value1", durationValue2.toString());
+  };
+  const handleThinkTime1 = (event) => {
+    event.dataTransfer.setData("type", "think");
+    event.dataTransfer.setData("value", messageText3);
+  };
+  const handleSwitch = (event) => {
+    event.dataTransfer.setData("type", "switch");
+    event.dataTransfer.setData("value", "switch");
+  };
+  const handleSwitchCostume = (event) => {
+    event.dataTransfer.setData("type", "costume");
+    event.dataTransfer.setData("value", "costume");
+  };
+  const handleSwitchBackdrop = (event) => {
+    event.dataTransfer.setData("type", "switch1");
+    event.dataTransfer.setData("value", "switch1");
+  };
+  const handleSwitchBackdrop1 = (event) => {
+    event.dataTransfer.setData("type", "backdrop");
+    event.dataTransfer.setData("value", "backdrop");
+  };
+  const handleSize = (event) => {
+    event.dataTransfer.setData("type", "size");
+    event.dataTransfer.setData("value", sizeInput.toString());
+  };
+  const handlePercentageSize = (event) => {
+    console.log("Inside hendlePercentage");
+    event.dataTransfer.setData("type", "size123");
+    event.dataTransfer.setData("value", sizeInput1.toString());
+  };
+  const handleChangeColor = (event) => {
+    event.dataTransfer.setData("type", "changec");
+    event.dataTransfer.setData("value", durationValue5.toString());
+  };
+  const handleSetColor = (event) => {
+    event.dataTransfer.setData("type", "setc");
+    event.dataTransfer.setData("value", durationValue6.toString());
+  };
+  const handleClearGraphics = (event) => {
+    event.dataTransfer.setData("type", "clearg");
+    event.dataTransfer.setData("value", "clearg");
+  };
+  const handleShow = (event) => {
+    event.dataTransfer.setData("type", "show");
+    event.dataTransfer.setData("value", "show");
+  };
+  const handleHide = (event) => {
+    event.dataTransfer.setData("type", "hide");
+    event.dataTransfer.setData("value", "hide");
+  };
+  const handleLayers = (event) => {
+    event.dataTransfer.setData("type", "layers");
+    event.dataTransfer.setData("value", "layers");
+  };
+  const handleLayers1 = (event) => {
+    event.dataTransfer.setData("type", "layers1");
+    event.dataTransfer.setData("value", durationValue4.toString());
+  };
+  const handleCostumeNumber = (event) => {
+    event.dataTransfer.setData("type", "costumen");
+    event.dataTransfer.setData("value", "costumen");
+  };
+  const handleBackdropNumber = (event) => {
+    event.dataTransfer.setData("type", "backdropn");
+    event.dataTransfer.setData("value", "backdropn");
+  };
+  const handleShowSize = (event) => {
+    event.dataTransfer.setData("type", "showsize");
+    event.dataTransfer.setData("value", "showsize");
+  };
   const handleGoToClick2 = () => {
     setShowOptions2((prevState) => !prevState);
   };
 
-  const handleChange = (e, setter) => {
+  const handleChange = (e) => {
     let value = parseInt(e.target.value);
     if (isNaN(value)) value = 0;
     value = Math.max(-999, Math.min(value, 999));
-    setter(value.toString());
+    setX4(value);
+    console.log("x4 in sidebar.js:", x4);
   };
 
   const handleChange7 = (e, setter) => {
@@ -254,6 +353,87 @@ export default function Sidebar({
 
   const handleTabClick = () => {
     setCurrentTab(!isCurrentTab);
+  };
+
+  // const handleDragStart = (event) => {
+  //   // Pass the button component as data
+  //   const buttonComponent = document.getElementById("moveButton");
+  //   event.dataTransfer.setData("move", buttonComponent.outerHTML);
+  //   event.dataTransfer.setData("x4", x4); // Pass x4 value as data
+  // };
+  // const handleDragLeftRotate = (event) => {
+  //   // Pass the button component as data
+  //   const buttonComponent1 = document.getElementById("leftRotateButton");
+  //   event.dataTransfer.setData("left rotate", buttonComponent1.outerHTML);
+  // };
+
+  const handleDragStart = (event) => {
+    // Pass the button component as data
+    event.dataTransfer.setData("type", "move");
+    event.dataTransfer.setData("value", x4.toString()); // Pass x4 value as data
+  };
+
+  const handleDragLeftRotate = (event) => {
+    // Pass the button component as data
+    event.dataTransfer.setData("type", "lrotate");
+    event.dataTransfer.setData("value", "leftRotate"); // Assuming a placeholder value for left rotate
+  };
+  const handleDragRightRotate = (event) => {
+    // Pass the button component as data
+    event.dataTransfer.setData("type", "rrotate");
+    event.dataTransfer.setData("value", "rightRotate"); // Assuming a placeholder value for left rotate
+  };
+  const handleDragGoTo = (event) => {
+    // Pass the button component as data
+    event.dataTransfer.setData("type", "goto");
+    event.dataTransfer.setData("value", "Goto"); // Assuming a placeholder value for left rotate
+  };
+  const handleDragGoToXY = (event) => {
+    // Pass the button component as data
+    event.dataTransfer.setData("type", "gotoxy");
+    event.dataTransfer.setData("value", x.toString());
+    event.dataTransfer.setData("value1", y.toString()); // Assuming a placeholder value for left rotate
+  };
+  const handleDragGlide = (event) => {
+    // Pass the button component as data
+    event.dataTransfer.setData("type", "glide");
+    event.dataTransfer.setData("value", angle1.toString()); // Assuming a placeholder value for left rotate
+  };
+  const handleDragGlideXY = (event) => {
+    // Pass the button component as data
+    event.dataTransfer.setData("type", "glidexy");
+    event.dataTransfer.setData("value", angle2.toString());
+    event.dataTransfer.setData("value1", x3.toString());
+    event.dataTransfer.setData("value2", y3.toString());
+  };
+  const handlePointDir = (event) => {
+    event.dataTransfer.setData("type", "point");
+    event.dataTransfer.setData("value", angle.toString());
+  };
+
+  const handleMousePoint = (event) => {
+    event.dataTransfer.setData("type", "mousepoint");
+    event.dataTransfer.setData("value", "mousepoint");
+  };
+  const handleChangeX = (event) => {
+    event.dataTransfer.setData("type", "changex");
+    event.dataTransfer.setData("value", x1.toString());
+  };
+  const handleSetX = (event) => {
+    event.dataTransfer.setData("type", "setx");
+    event.dataTransfer.setData("value", x2.toString());
+  };
+  const handleChangeY = (event) => {
+    event.dataTransfer.setData("type", "changey");
+    event.dataTransfer.setData("value", y1.toString());
+  };
+  const handleSetY = (event) => {
+    event.dataTransfer.setData("type", "sety");
+    event.dataTransfer.setData("value", y2.toString());
+  };
+  const handleEdge = (event) => {
+    event.dataTransfer.setData("type", "edge");
+    event.dataTransfer.setData("value", "edge");
   };
 
   const handleMoveClick = () => {
@@ -546,12 +726,15 @@ export default function Sidebar({
           <div
             className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleMoveClick}
+            draggable="true"
+            onDragStart={handleDragStart}
+            id="moveButton"
           >
             <span className="mr-1">Move</span>{" "}
             <input
               type="text"
+              onChange={handleChange}
               value={x4}
-              onChange={(e) => handleChange(e, setX4)}
               className="border rounded px-1 mr-2 w-8 text-center text-black"
             />{" "}
             <span className="mr-1">steps</span>
@@ -561,18 +744,27 @@ export default function Sidebar({
             className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleRotateLeftClick}
             disabled={!rotationEnabled}
+            draggable="true"
+            onDragStart={handleDragLeftRotate}
+            id="leftRotateButton"
           >
             Rotate Left
           </div>
           <div
             className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleRotateRightClick}
+            draggable="true"
             disabled={!rotationEnabled}
+            onDragStart={handleDragRightRotate}
           >
             Rotate Right
           </div>
           <div className="relative">
-            <button className="bg-blue-500 text-white px-2 py-1 my-2  text-sm cursor-pointer rounded shadow-md">
+            <button
+              className="bg-blue-500 text-white px-2 py-1 my-2  text-sm cursor-pointer rounded shadow-md"
+              draggable="true"
+              onDragStart={handleDragGoTo}
+            >
               <span onClick={() => handleRandomPosition(selectedOption)}>
                 {" "}
                 go to{" "}
@@ -605,6 +797,8 @@ export default function Sidebar({
           <div
             className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
             onClick={handleMoveBtnClick}
+            draggable="true"
+            onDragStart={handleDragGoToXY}
           >
             <span className="mr-1">go to</span>
             <span className="mr-1"> x:</span>
@@ -623,7 +817,11 @@ export default function Sidebar({
             />
           </div>
           <div className="relative">
-            <button className="bg-blue-500 text-white  py-1 my-2  text-sm cursor-pointer rounded shadow-md">
+            <button
+              className="bg-blue-500 text-white  py-1 my-2  text-sm cursor-pointer rounded shadow-md"
+              draggable="true"
+              onDragStart={handleDragGlide}
+            >
               <span onClick={() => handleGlideOnTime(selectedOption3)}>
                 Glide
               </span>
@@ -664,6 +862,8 @@ export default function Sidebar({
             <button
               className="bg-blue-500 text-white py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
               onClick={handleMoveBtnClick1}
+              draggable="true"
+              onDragStart={handleDragGlideXY}
             >
               <span>Glide</span>
               <input
@@ -695,17 +895,23 @@ export default function Sidebar({
           <div
             className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
             onClick={handleRotateClick}
+            draggable="true"
+            onDragStart={handlePointDir}
           >
             <span className="mr-1">point in direction : </span>
             <input
               type="text"
               value={angle}
-              onChange={(e) => handleChange(e, setAngle)}
+              onChange={(e) => handleChange7(e, setAngle)}
               className="border rounded px-1 mr-2 w-8 text-center text-black"
             />
           </div>
           <div className="relative">
-            <button className="bg-blue-500 text-white px-1 py-1 my-1  text-sm cursor-pointer rounded shadow-md">
+            <button
+              className="bg-blue-500 text-white px-1 py-1 my-1  text-sm cursor-pointer rounded shadow-md"
+              draggable="true"
+              onDragStart={handleMousePoint}
+            >
               <span onClick={handleRandomPositionAngle}>point towards</span>{" "}
               <span
                 className="bg-white text-black px-1"
@@ -728,6 +934,8 @@ export default function Sidebar({
           <div
             className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
             onClick={handleMoveClick1}
+            draggable="true"
+            onDragStart={handleChangeX}
           >
             <span className="mr-1">change X by :</span>
             <input
@@ -740,6 +948,8 @@ export default function Sidebar({
           <div
             className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
             onClick={handleMoveClick2}
+            draggable="true"
+            onDragStart={handleSetX}
           >
             <span className="mr-1">set X to :</span>
             <input
@@ -752,6 +962,8 @@ export default function Sidebar({
           <div
             className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
             onClick={handleMoveClick3}
+            draggable="true"
+            onDragStart={handleChangeY}
           >
             <span className="mr-1">Change Y by:</span>
             <input
@@ -764,6 +976,8 @@ export default function Sidebar({
           <div
             className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
             onClick={handleMoveClick4}
+            draggable="true"
+            onDragStart={handleSetY}
           >
             <span className="mr-1">Set Y to:</span>
             <input
@@ -776,11 +990,17 @@ export default function Sidebar({
           <div
             className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
             onClick={handleBounceClick}
+            draggable="true"
+            onDragStart={handleEdge}
           >
             If on edge, then bounce
           </div>
           <div className="relative">
-            <button className="bg-blue-500 text-white py-1 my-1 text-sm cursor-pointer rounded shadow-md">
+            <button
+              className="bg-blue-500 text-white py-1 my-1 text-sm cursor-pointer rounded shadow-md"
+              draggable="true"
+              onDragStart={handleSetRotation}
+            >
               <span onClick={handleRotation}>Set Rotation Style :</span>{" "}
               <span className="bg-white text-black " onClick={handleGoToClick2}>
                 {selectedOption2}&#9660;
@@ -816,7 +1036,11 @@ export default function Sidebar({
                 onChange={(e) => handleCheckboxClick("xAxis", e.target.checked)}
                 className="mr-2 form-checkbox text-blue-500"
               />
-              <div className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center">
+              <div
+                className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
+                draggable="true"
+                onDragStart={handleCheckboxX}
+              >
                 X-axis
               </div>
             </label>
@@ -826,7 +1050,11 @@ export default function Sidebar({
                 onChange={(e) => handleCheckboxClick("yAxis", e.target.checked)}
                 className="mr-2 form-checkbox text-blue-500"
               />
-              <div className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center">
+              <div
+                className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
+                draggable="true"
+                onDragStart={handleCheckboxY}
+              >
                 Y-axis
               </div>
             </label>
@@ -838,7 +1066,11 @@ export default function Sidebar({
                 }
                 className="mr-2 form-checkbox text-blue-500"
               />
-              <div className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center">
+              <div
+                className="bg-blue-500 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
+                draggable="true"
+                onDragStart={handleCheckboxD}
+              >
                 Direction
               </div>
             </label>
@@ -849,6 +1081,8 @@ export default function Sidebar({
           <div
             className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleClick}
+            draggable="true"
+            onDragStart={handleSayTime}
           >
             <span className="mr-1">say</span>
             <input
@@ -870,6 +1104,8 @@ export default function Sidebar({
           <div
             className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleClick1}
+            draggable="true"
+            onDragStart={handleSayTime1}
           >
             <span className="mr-1">say</span>
             <input
@@ -883,6 +1119,8 @@ export default function Sidebar({
           <div
             className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleClick2}
+            draggable="true"
+            onDragStart={handleThinkTime}
           >
             <span className="mr-1">think</span>
             <input
@@ -904,6 +1142,8 @@ export default function Sidebar({
           <div
             className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleClick3}
+            draggable="true"
+            onDragStart={handleThinkTime1}
           >
             <span className="mr-1">think</span>
             <input
@@ -918,6 +1158,8 @@ export default function Sidebar({
             <button
               className="bg-purple-700 text-white px-2 py-1 my-2  text-sm cursor-pointer rounded shadow-md"
               onClick={handleGoToClick4}
+              draggable="true"
+              onDragStart={handleSwitch}
             >
               Switch costume to{" "}
               <span className="bg-white text-black ">
@@ -944,6 +1186,8 @@ export default function Sidebar({
           <div
             className="bg-purple-700 text-white px-4 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleCostume}
+            draggable="true"
+            onDragStart={handleSwitchCostume}
           >
             next costume
           </div>
@@ -951,6 +1195,8 @@ export default function Sidebar({
             <button
               className="bg-purple-700 text-white  py-1 my-2  text-sm cursor-pointer rounded shadow-md"
               onClick={handleGoToClick5}
+              draggable="true"
+              onDragStart={handleSwitchBackdrop}
             >
               Switch backdrop to
               <span className="bg-white text-black">
@@ -990,12 +1236,16 @@ export default function Sidebar({
           <div
             className="bg-purple-700 text-white px-4 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleBackdrop}
+            draggable="true"
+            onDragStart={handleSwitchBackdrop1}
           >
             next backdrop
           </div>
           <div
             className="bg-purple-700 text-white px-2 py-1 my-2  text-sm cursor-pointer rounded shadow-md"
             onClick={handleIncreaseSize}
+            draggable="true"
+            onDragStart={handleSize}
           >
             <span className="mr-1">change size by : </span>
             <input
@@ -1008,6 +1258,8 @@ export default function Sidebar({
           <div
             className="bg-purple-700 text-white px-2 py-1 my-2  text-sm cursor-pointer rounded shadow-md"
             onClick={handleDevideSize}
+            draggable="true"
+            onDragStart={handlePercentageSize}
           >
             <span className="mr-1">set size by : </span>
             <input
@@ -1022,6 +1274,8 @@ export default function Sidebar({
             <button
               className="bg-purple-700 text-white  py-1 my-2  text-sm cursor-pointer rounded shadow-md"
               onClick={handleGoToClick10}
+              draggable="true"
+              onDragStart={handleChangeColor}
             >
               change{" "}
               <span className="bg-white text-black">
@@ -1086,6 +1340,8 @@ export default function Sidebar({
             <button
               className="bg-purple-700 text-white  py-1 my-2  text-sm cursor-pointer rounded shadow-md"
               onClick={handleGoToClick11}
+              draggable="true"
+              onDragStart={handleSetColor}
             >
               set{" "}
               <span className="bg-white text-black">
@@ -1149,18 +1405,24 @@ export default function Sidebar({
           <div
             className="bg-purple-700 text-white px-4 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleGraphicEffect}
+            draggable="true"
+            onDragStart={handleClearGraphics}
           >
             clear graphic effects
           </div>
           <div
             className="bg-purple-700 text-white px-4 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleShowCat}
+            draggable="true"
+            onDragStart={handleShow}
           >
             show
           </div>
           <div
             className="bg-purple-700 text-white px-4 py-1 my-2 text-sm cursor-pointer rounded shadow-md"
             onClick={handleHideCat}
+            draggable="true"
+            onDragStart={handleHide}
           >
             hide
           </div>
@@ -1168,6 +1430,8 @@ export default function Sidebar({
             <button
               className="bg-purple-700 text-white px-2 py-1 my-2  text-sm cursor-pointer rounded shadow-md"
               onClick={handleGoToClick6}
+              draggable="true"
+              onDragStart={handleLayers}
             >
               go to{" "}
               <span className="bg-white text-black">
@@ -1197,6 +1461,8 @@ export default function Sidebar({
             <button
               className="bg-purple-700 text-white px-2 py-1 my-2  text-sm cursor-pointer rounded shadow-md"
               onClick={handleGoToClick7}
+              draggable="true"
+              onDragStart={handleLayers1}
             >
               go to{" "}
               <span className="bg-white text-black">
@@ -1239,6 +1505,8 @@ export default function Sidebar({
               <div
                 className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
                 onClick={handleGoToClick8}
+                draggable="true"
+                onDragStart={handleCostumeNumber}
               >
                 costume{" "}
                 <span className="bg-white text-black px-1 ml-1">
@@ -1274,6 +1542,8 @@ export default function Sidebar({
               <div
                 className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center mr-2"
                 onClick={handleGoToClick9}
+                draggable="true"
+                onDragStart={handleBackdropNumber}
               >
                 backdrop{" "}
                 <span className="bg-white text-black px-1 ml-1">
@@ -1303,7 +1573,11 @@ export default function Sidebar({
                 onChange={(e) => handleCheckboxClick1("size", e.target.checked)}
                 className="mr-2 form-checkbox text-purple-700"
               />
-              <div className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center">
+              <div
+                className="bg-purple-700 text-white px-2 py-1 my-2 text-sm cursor-pointer rounded shadow-md flex items-center"
+                draggable="true"
+                onDragStart={handleShowSize}
+              >
                 size
               </div>
             </label>

@@ -190,7 +190,21 @@ export default function App() {
             onShowCat={handleShowCat}
             onHideCat={handleHideCat}
           />
-          <MidArea />
+          <MidArea
+            moveSprite={moveSprite}
+            rotateSprite={rotateSprite}
+            moveSetSprite={moveSetSprite}
+            catPosition={catPosition}
+            catRotation={catRotation}
+            rotateSetSprite={rotateSetSprite}
+            bounceCat={bounceCat}
+            onSayClick={handleSayClick}
+            OnPref={handlePref}
+            increaseSize={increaseSize}
+            calcPercentageSize={calcPercentageSize}
+            onShowCat={handleShowCat}
+            onHideCat={handleHideCat}
+          />
         </div>
         <div className="w-1/3 h-screen overflow-hidden flex flex-row bg-white border-t border-l border-gray-200 rounded-tl-xl ml-2">
           <PreviewArea
