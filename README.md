@@ -14,7 +14,7 @@
 ## Updates:
 - Added Drag and Drop functionalities to All Motoin and Looks Button To Midarea
 - Flag(play) button is added in Midarea
-    - After dragging buttons to midarea checkout this flag button
+    - Click this button after dragging looks and motion blocks buttons to midarea
 
 ## Working Demo:
 [Scratch_clone.webm](https://github.com/Devanshudd/scratch_clone_assignment/assets/100607040/1f817cd4-4084-4cf4-a988-044c417b7890)
